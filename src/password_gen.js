@@ -372,7 +372,10 @@ function chkPass(pwd) {
     } else if (nScore < 0) {
       nScore = 0;
     }
-    if (nScore >= 0 && nScore < 20) {
+
+    if (data.includes(document.getElementById("password").value.toLowerCase()))
+      sComplexity = "Very Common password";
+    else if (nScore >= 0 && nScore < 20) {
       sComplexity = "Very Weak";
     } else if (nScore >= 20 && nScore < 40) {
       sComplexity = "Weak";

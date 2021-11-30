@@ -9,8 +9,7 @@ const phoneInput = document.querySelector("#phone");
 const progress = document.querySelector("#prog");
 window.addEventListener("load", () => {
     [nameInput, ageInput, phoneInput].forEach((input) => {
-        var _a;
-        input.value = (_a = sessionStorage.getItem(input.id)) !== null && _a !== void 0 ? _a : "";
+        input.value = sessionStorage.getItem(input.id) ?? "";
     });
 });
 function giveInvalidFeedback(msg) {
@@ -30,35 +29,32 @@ function giveValidFeedback(msg) {
 }
 function giveStrength(password) {
     // remove all previous validations
-    passwordInput.classList.remove("is-invalid");
-    // calculate password score
-    const passwordMeter = zxcvbn(password);
-    console.log(passwordMeter);
-    const passwordStrength = passwordMeter.score;
-    if (passwordMeter.feedback.suggestions.length) {
-        giveValidFeedback(passwordMeter.feedback.suggestions[0]);
-    }
-    else {
-        giveValidFeedback("");
-    }
+    // passwordInput.classList.remove("is-invalid");
+    // // calculate password score
+    // const passwordMeter = zxcvbn(password);
+    // // console.log(passwordMeter);
+    // const passwordStrength = passwordMeter.score;
+    // if (passwordMeter.feedback.suggestions.length) {
+    //   // giveValidFeedback(passwordMeter.feedback.suggestions[0]);
+    // } else {
+    //   // giveValidFeedback("");
+    // }
     // show strength percentage on progress bar
-    const strengthPercentage = (passwordStrength / 4) * 100;
-    progress.style.width = strengthPercentage + "%";
-    progress.innerText = strengthPercentage + "%";
-    progress.setAttribute("aria-valuenow", strengthPercentage + "");
+    // const strengthPercentage = (passwordStrength / 4) * 100;
+    // progress.style.width = strengthPercentage + "%";
+    // progress.innerText = strengthPercentage + "%";
+    // progress.setAttribute("aria-valuenow", strengthPercentage + "");
     // Adjust progress bar color base on score
-    if (strengthPercentage >= 75) {
-        progress.classList.remove("bg-danger", "bg-warning");
-        progress.classList.add("bg-success");
-    }
-    else if (strengthPercentage >= 50) {
-        progress.classList.remove("bg-danger", "bg-success");
-        progress.classList.add("bg-warning");
-    }
-    else {
-        progress.classList.remove("bg-warning", "bg-success");
-        progress.classList.add("bg-danger");
-    }
+    // if (strengthPercentage >= 75) {
+    //   progress.classList.remove("bg-danger", "bg-warning");
+    //   progress.classList.add("bg-success");
+    // } else if (strengthPercentage >= 50) {
+    //   progress.classList.remove("bg-danger", "bg-success");
+    //   progress.classList.add("bg-warning");
+    // } else {
+    //   progress.classList.remove("bg-warning", "bg-success");
+    //   progress.classList.add("bg-danger");
+    // }
 }
 // window
 //   .addEventListener("load", () => {
@@ -68,6 +64,12 @@ function giveStrength(password) {
     const value = passwordInput.value;
     if (input !== passwordInput) {
         sessionStorage.setItem(input.id, input.value);
+    }
+    else {
+        console.log(data);
+        const isCommonPassword = data.includes(passwordInput.value);
+        if (isCommonPassword)
+            return giveValidFeedback("You have entered a common password");
     }
     // Check if name exists in password
     if (nameInput.value.length &&
